@@ -4,7 +4,24 @@
     <button @click="myAnimation='fade'">fade</button>
 
     <button @click="show=!show">きりかえ</button>
+    <br><br>
+    <transition
+    :css="false"
+    @before-enter="beforeEnter" 
+    @enter="enter" 
+    @leave="leave" 
+    >
+      <div class="circle" v-if="show"></div>
+    </transition>
+    
     <p>{{myAnimation}}</p>
+    <br>
+    <button @click="myComponent ='ComponentA'">ComponentA</button>
+    <button @click="myComponent='ComponentB'">ComponentB</button>
+    <transition name="fade" mode="out-in">
+      <component :is="myComponent"></component>
+    </transition>
+    
     <transition name="fade" mode="out-in">
       <p v-if="show" key="bye">さようなら</p>
       <p v-else key="hello">こんにちは</p>
@@ -18,16 +35,75 @@
 </template>
 
 <script>
+import ComponentA from "./components/ComponentA.vue";
+import ComponentB from "./components/ComponentB.vue";
+
 export default {
+  components: {
+    ComponentA,
+    ComponentB
+  },
   data() {
     return {
-      show: true
+      show: true,
+      myAnimation: "slide",
+      myComponent: "ComponentA"
     };
+  },
+  methods: {
+    beforeEnter(el) {
+      
+    },
+    enter(el, done) {
+     let scale = 0;
+     const interval = setInterval(() => {
+       el.style.transform = 'scale($(scale))'
+       scale += 0.1
+       if (scale > 1) {
+         clearInterval(interval);
+         done();
+       }
+     }, 200);
+    },
+    afterEnter(el) {
+
+    },
+    enterCancelled(el) {
+
+    },
+    beforeLeave(el) {
+
+    },
+    leave(el, done) {
+      let scale = 1;
+      const interval = setInterval(() => {
+      el.style.transform = 'scale($(scale))'
+      scale -= 0.1
+      if (scale < 0) {
+       clearInterval(interval);
+         done();
+       }
+     }, 200);
+    },
+    afterLeave(el) {
+
+    },
+    leaveCancelled(el) {
+
+    }
   }
 };
 </script>
 
 <style scoped>
+  .circle {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    background-color: deeppink;
+    border-radius: 100px;
+  }
+
   .fade-enter {
     opacity: 0;
   }
