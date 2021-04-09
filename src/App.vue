@@ -4,7 +4,14 @@
     <button @click="myAnimation='fade'">fade</button>
 
     <button @click="show=!show">きりかえ</button>
-    <br><br>
+    <br>
+    <button @click="add">ついか</button>
+      <ul>
+        <transition-group>
+          <li style="cursor: ponitet;" v-for="(number, index) in numbers" @click="remove(index)" :key="index">{{ number }}</li>
+        </transition-group>
+      </ul>
+    <br>
     <transition
     :css="false"
     @before-enter="beforeEnter" 
@@ -45,13 +52,25 @@ export default {
   },
   data() {
     return {
+      numbers: [0, 1, 2],
+      nextNumber: 3,
       show: true,
       myAnimation: "slide",
       myComponent: "ComponentA"
     };
   },
   methods: {
-    beforeEnter(el) {
+    randomIndex() {
+      return Math.floor(Math.random() * this.numbers.length);
+    },
+    add() {
+     this.numbers.splice(this.randomIndex(), 0, this.nextNumber);
+     this.nextNumber += 1;
+    },
+    remove(index) {
+      this.numbers.splice(index, 1);
+    },
+    beforeEnter() {
       
     },
     enter(el, done) {
@@ -65,13 +84,13 @@ export default {
        }
      }, 200);
     },
-    afterEnter(el) {
+    afterEnter() {
 
     },
-    enterCancelled(el) {
+    enterCancelled() {
 
     },
-    beforeLeave(el) {
+    beforeLeave() {
 
     },
     leave(el, done) {
@@ -85,10 +104,10 @@ export default {
        }
      }, 200);
     },
-    afterLeave(el) {
+    afterLeave() {
 
     },
-    leaveCancelled(el) {
+    leaveCancelled() {
 
     }
   }
