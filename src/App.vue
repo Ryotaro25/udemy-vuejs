@@ -7,8 +7,8 @@
     <br>
     <button @click="add">ついか</button>
       <ul>
-        <transition-group>
-          <li style="cursor: ponitet;" v-for="(number, index) in numbers" @click="remove(index)" :key="index">{{ number }}</li>
+        <transition-group name="fade">
+          <li style="cursor: ponitet;" v-for="(number, index) in numbers" @click="remove(index)" :key="number">{{ number }}</li>
         </transition-group>
       </ul>
     <br>
@@ -123,6 +123,9 @@ export default {
     border-radius: 100px;
   }
 
+  .fade-move {
+    transition: transform 1s;
+  }
   .fade-enter {
     opacity: 0;
   }
@@ -136,7 +139,9 @@ export default {
     opacity: 1;
   }
   .fade-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 1s;
+    position: absolute;
+    width: 200px;
   }
   .fade-leave-to {
     opacity: 0;
