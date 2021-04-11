@@ -17,24 +17,6 @@
 
 <script>
 export default {
-  props: ["id"],
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      console.log(vm.id);
-    });
-  },
-  beforeRouteUpdate(to, from, next) {
-
-    next()
-  },
-  beforeRouteLeave(to, from, next) {
-    const isLeave = window.confirm("本当にこのページを離れますか？");
-    if (isLeave) {
-      next();
-    } else {
-      next(false)
-    }
-  
-  }
-}
+  props: ["id"]
+};
 </script>
