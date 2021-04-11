@@ -10,11 +10,31 @@
     <router-view></router-view>
     <div style="height: 700px;"></div>
       <router-link :to="{ name: 'users-id-profile', params: { id: Number(id) + 1 }, query: { lang: 'ja', page: 2}, hash: '#next-user' }">次のユーザー</router-link>
+       <div style="height: 1400px;"></div>
     </div>
+   
 </template>
 
 <script>
 export default {
-  props: ["id"]
+  props: ["id"],
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      console.log(vm.id);
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    const isLeave = window.confirm("本当にこのページを離れますか？");
+    if (isLeave) {
+      next();
+    } else {
+      next(false)
+    }
+  
+  }
 }
 </script>

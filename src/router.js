@@ -13,7 +13,9 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: '/', components: {
+      path: '/', 
+      components: 
+      {
       default: Home,
       header: HeaderHome
       }
@@ -33,5 +35,26 @@ export default new Router({
       ]}, {
         path: "*", redirect: { path: '/'}
       }
-  ]
+  ],
+  scrollBehavior(to,from,savedPosition) {
+    return new Promise(resolve => {
+      this.app.$root.$once('triggerScroll', () => {
+        let position = {x:0, y:0}
+        if (savedPosition) {
+          return savedPosition;
+        }
+        if (to.hash) {
+          position = {
+            selector: to.hash
+          };
+        }
+        if (from.hash) {
+          position = {
+            selector: '#next-user'
+          };
+        }
+        resolve(position);
+      });
+    });
+  }
 });
